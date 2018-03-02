@@ -1,0 +1,104 @@
+<ul id="carrinho" class="side-nav">
+    <div>
+        <h5 class="center grey-text"><i class="material-icons medium">shopping_cart</i></h5>
+        #_navbarProduto_#
+    </div>
+    <div id="botaoPedido" class="row" style="display: none;">
+        <a href="../produto/pedidoAdicionarController.php" class="btn-large col l12 btn waves-effect waves-light orange "><i class="material-icons">shopping_basket</i></a>
+    </div>
+</ul>
+<ul id="perfil" class="side-nav">
+    <div>
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="../images/background.jpg" class="responsive-img">
+                </div>
+                <i class="material-icons large white-text darken-1">account_circle</i>
+                <div style="display: #_displayAccount_#">
+                    <h5 class="name white-text">#_nomeCliente_#</h5>
+                    <h6 class="email white-text">#_email_#</h6>
+                </div>
+            </div>
+        </li>
+        <div style="display: #_displayAccount_#">
+            <li><a href="../cliente/clienteController.php"><i class="material-icons left">settings</i>Minha conta</a>
+            <li><a href="../cliente/pedidoController.php"><i class="material-icons left">local_shipping</i>Meus pedidos</a>
+            <li><a href="../produto/homeController.php?sair=sair"><i class="material-icons left">power_settings_new</i>Sair</a>
+        </div>
+        <div style="display: #_displayLogin_#">
+            <li><a href="../login/loginController.php?nivel=cliente"><i class="material-icons">perm_identity</i>Login</a></li>
+            <li><a href="../cliente/addClienteController.php"><i class="material-icons">person_add</i>Cadastrar</a></li>
+        </div>
+    </div>
+</ul>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper orange darken-1">
+            <a href="../produto/homeController.php" class="brand-logo" style="margin-left: 1%;"><i class="material-icons">bubble_chart</i></a>
+            <ul class="right">
+                <li>
+                    <label for="search"><i class="material-icons white-text">search</i></label>
+                </li>
+                <li>
+                    <div class="col s6">
+                        <input name="search" id="search" type="text" class="white-text pesquisa">
+                    </div>
+                </li>
+                <li><a href="../produto/favoritoController.php"><i class="material-icons">favorite</i></a></li>
+                <li data-activates="carrinho" class="button-collapse"><a><i class="material-icons">shopping_cart</i></a></li>
+                <li data-activates="perfil" class="button-collapse"><a ><i class="material-icons">face</i></a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<nav>
+    <div class="nav-wrapper orange darken-1">
+        <ul id="nav-mobile" class="centralizarNav">
+            <li><a href="../produto/homeController.php?sort=tv"><i class="material-icons">tv</i></a></li>
+            <li><a href="../produto/homeController.php?sort=smartphone"><i class="material-icons">smartphone</i></a></li>
+            <li><a href="../produto/homeController.php?sort=computer"><i class="material-icons">computer</i></a></li>
+            <li><a href="../produto/homeController.php?sort=tablet"><i class="material-icons">tablet</i></a></li>
+        </ul>
+    </div>
+</nav>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="./../js/materialize.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('i').hasClass('produto')) {
+            $('#botaoPedido').fadeIn();
+        }
+        $('.slider').slider();
+        $('.materialboxed').materialbox();
+        $(".button-collapse").sideNav();
+        $('.remove').click(function () {
+            var idProduto = $(this).attr('id');
+            var dados = {
+                "idCliente": 1,
+                "idProduto": idProduto,
+                "action": "delete"
+            }
+            $.ajax({
+                url: "../templates/ajax/templatesAjax.php",
+                dataType: "json",
+                type: "POST",
+                data: dados,
+                beforeSend: function () {
+                    $(".container").css("filter", "blur(7px)");
+                    $("html").css("cursor", "wait");
+                    $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                },
+                success: function (retorno) {
+                    if (retorno.error == false) {
+                        $("#resposta").html("<h3 class='green-text'><blockquote>" + retorno.mensagem + "</blockquote></h3>");
+                    } else {
+                        $("#resposta").html("<h3 class='red-text'><blockquote>" + retorno.mensagem + "</blockquote></h3>");
+                    }
+                    setTimeout(normalizar, 1500);
+                    window.location.href;
+                }
+            });
+        });
+    });
+</script>

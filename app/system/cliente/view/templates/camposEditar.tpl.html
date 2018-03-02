@@ -1,0 +1,74 @@
+
+<input type="hidden" name="action" value="update">
+<input type="hidden" name="id" value="#_id_#">
+<div class="row">
+    <div class="input-field col s9">
+        <input id="destinatario" name="destinatario" required type="text" class="validate" value="#_destinatario_#">
+        <label for="destinatario">Nome do Destinatario</label>
+    </div>
+    <div class="input-field col s3">
+        <input id="cep" name="cep" required type="number" class="validate" value="#_cep_#">
+        <label for="cep">CEP</label>
+    </div>
+    <div class="input-field col s12">
+        <input id="endereco" name="endereco" required type="text" class="validate" value="#_endereco_#">
+        <label for="endereco">Endereço</label>
+    </div>
+    <div class="input-field col s6">
+        <input id="numero" name="numero" required type="number" class="validate" value="#_numero_#">
+        <label for="numero">Numero</label>
+    </div>
+    <div class="input-field col s6">
+        <input id="complemento" name="complemento" type="text" class="validate" value="#_complemento_#">
+        <label for="complemento">Complemento</label>
+    </div>
+    <div class="input-field col s12">
+        <input id="bairro" name="bairro" required type="text" class="validate" value="#_bairro_#">
+        <label for="bairro">Bairro</label>
+    </div>
+    <div class="input-field col s6">
+        <input id="cidade" name="cidade" required type="text" class="validate" value="#_cidade_#">
+        <label for="cidade">Cidade</label>
+    </div>
+    <div class="input-field col s6">
+        <select name="estado" id="estado" required>
+            <option value="">#_estado_#</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+        </select>
+        <label>Estado</label>
+    </div>
+    <div class="input-field col s6">
+        <select id="tipo" name="tipo" required>
+            <option value="#_tipo_#" disabled selected>#_tipo_#</option>
+            <option value="residencial">Residencial</option>
+            <option value="comercial">Comercial</option>
+        </select>
+        <label>Tipo de Endereço</label>
+    </div>
+</div>

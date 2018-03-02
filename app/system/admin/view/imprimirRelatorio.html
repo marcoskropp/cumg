@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Imprimir Relatorio</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../css/materialize.min.css" rel="stylesheet" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="../templates/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        #_nav_#
+        <div class="row filtros">
+            <div class="col l12">
+                <a class='dropdown-button btn orange' href='#' data-activates='dropdown1'><i class="material-icons left">assessment</i>Filtar</a>
+                <ul id='dropdown1' class='dropdown-content'>
+                    <li><a class="dataButton">Data</a></li>
+                    <li><a href="imprimirRelatorioController.php?sort=valor">Valor</a></li>
+                    <li><a href="imprimirRelatorioController.php">Limpar</a></li>
+                </ul>
+                <a class="waves-effect waves-light btn right orange imprimir"><i class="material-icons left">print</i>Imprimir Relatorio</a>
+            </div>
+            <div class="col l12">
+                <form action="imprimirRelatorioController.php" method="GET">
+                    <div class="data" style="display: none;">
+                        <div class="input-field col s4">
+                            <input id="dataInicial" type="date" class="validate" name="dataInicial">
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="dataFinal" type="date" class="validate" name="dataFinal">
+                        </div>
+                        <div class="col s4">
+                            <button class="btn waves-effect waves-light orange" value="data" name="sort" type="submit">Pesquisar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <table class="bordered">
+            <thead>
+                <tr>
+                    <th>Id Pedido</th>
+                    <th>CPF</th>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Data</th>
+                    <th>Situaçao</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                #_listaImprimirRelatorio_#
+            </tbody>
+        </table>
+
+        <div id="resposta" class="centralizar"></div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="../js/materialize.min.js" type="text/javascript" ></script>
+        <script src="../js/funcoes.js" type="text/javascript" ></script>
+        <script>
+            $(document).ready(function () {
+                $('.dataButton').click(function () {
+                    $('.data').css("display", "table");
+                });
+                $('.imprimir').click(function () {
+                    $('nav').css("display", "none");
+                    $('.filtros').css("display", "none");
+                    $(".fixed-action-btn").css("display", "none");
+                    print();
+                    $('nav').css("display", "table");
+                    $('.filtros').css("display", "table");
+                    $(".fixed-action-btn").css("display", "table");
+                });
+            });
+        </script>
+    </body>
+</html>

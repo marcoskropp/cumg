@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="./../css/materialize.css"  media="screen,projection"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="./../css/style.css" rel="stylesheet">
+        <title>CUMG</title>
+        <link rel="shortcut icon" href="../templates/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        #_navbar_#
+        <div>
+            <br>
+            <div class="row">
+                <div class="col l4">
+                    <div class="slider" >
+                        <ul class="slides">
+                            #_produtoImage_#
+                        </ul>
+                    </div>
+                </div>
+                <div class="col l8">
+                    <div class="row">
+                        <div class="col s12">
+                            <h5>#_marca_#</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s8">
+                            <h4><i class="material-icons small">#_categoria_#</i>#_nome_#</h4>
+                        </div>
+                        <div class="right col s4">
+                            <h5>Avaliaçoes</h5>
+                            <i class="material-icons yellow-text">star</i><i class="material-icons yellow-text">star</i><i class="material-icons yellow-text">star</i><i class="material-icons yellow-text">star_half</i><i class="material-icons yellow-text">star_border</i>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col s6 right">
+                            <h3>R$ #_preco_#</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4 left">
+                            <h5>Quantidade</h5>
+                            <ul class="pagination">
+                                <li class="waves-" id="remove"><a class="waves-effect"><i class="material-icons">remove</i></a></li>
+                                <li class="active orange darken-1"><a><div id="quantidade">1</div></a></li>
+                                <li class="waves-light" id="add"><a class="waves-effect"><i class="material-icons">add</i></a></li>
+                                <input type="hidden" id="produtoQuantidade" value="#_quantidade_#">
+                            </ul>
+                        </div>
+                        <div class="col s7 right">
+                            <a class="adicionar waves-effect waves-light btn btn-large right orange darken-1 right" id="#_id_#"><i class="material-icons left">add_shopping_cart</i>Adicionar ao Carrinho</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <h3><i class="material-icons medium">description</i>Descriçao</h3>
+            <h5>#_descricao_#</h5>
+        </div>
+        #_footer_#
+        <div id="resposta" class="centralizar"></div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/funcoes.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var quantidade = 1;
+                $('#remove').click(function () {
+                    if ($('#quantidade').text() > 1)
+                        quantidade -= 1;
+                    $('#quantidade').html(quantidade);
+                });
+                $('#add').click(function () {
+                    if (quantidade < $('#produtoQuantidade').val()) {
+                        quantidade += 1;
+                        $('#quantidade').html(quantidade);
+                    }
+                });
+                $('.slider').slider();
+                $('.materialboxed').materialbox();
+                $(".button-collapse").sideNav();
+                $('.adicionar').click(function () {
+                    var dados = {
+                        "idProduto": $(this).attr('id'),
+                        "quantidade": $('#quantidade').text(),
+                        "action": "create"
+                    }
+                    $.ajax({
+                        url: "ajax/produtoAjax.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: dados,
+                        beforeSend: function () {
+                            $(".container").css("filter", "blur(7px)");
+                            $("html").css("cursor", "wait");
+                            $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                        },
+                        success: function (retorno) {
+                            if (retorno.error == false) {
+                                $("#resposta").html("<h3 class='green-text'><blockquote>" + retorno.mensagem + "</blockquote></h3>");
+                            } else {
+                                $("#resposta").html("<h3 class='red-text'><blockquote>" + retorno.mensagem + "</blockquote></h3>");
+                            }
+                            setTimeout(normalizar, 1500);
+                            window.location.href = "produtoController.php?id=#_id_#";
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

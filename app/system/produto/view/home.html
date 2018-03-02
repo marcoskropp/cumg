@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="./../css/materialize.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="./../css/style.css" rel="stylesheet">
+        <title>CUMG</title>
+        <link rel="shortcut icon" href="../templates/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        #_navbar_#
+        <div class="container">
+            <div class="row">
+                #_lista_#
+            </div>
+        </div>
+        #_footer_#
+        <div id="resposta" class="centralizar"></div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="./../js/materialize.min.js"></script>
+        <script type="text/javascript" src="./../js/funcoes.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.add').on("click", function () {
+                    var idProduto = $(this).attr('id');
+                    var dados = {
+                        "idProduto": idProduto,
+                        "quantidade": 1,
+                        "action": "create",
+                        "table": "carrinho"
+                    }
+                    $.ajax({
+                        url: "ajax/homeAjax.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: dados,
+                        beforeSend: function () {
+                            $(".container").css("filter", "blur(7px)");
+                            $("html").css("cursor", "wait");
+                            $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                        },
+                        success: function (retorno) {
+                            if (retorno.error == false) {
+                                $("#resposta").html("<h1><blockquote>" + retorno.mensagem + "</blockquote></h1>");
+                            } else {
+                                $("#resposta").html("<h1><blockquote>" + retorno.mensagem + "</blockquote></h1>");
+                            }
+                            setTimeout(normalizar, 1500);
+                            window.location.href = 'homeController.php';
+                        }
+                    });
+                });
+                $('.favorito').mouseover(function () {
+                    $(this).children('i').removeClass("grey-text").addClass("red-text");
+                }).mouseout(function () {
+                    if ($(this).children('i').text() == "favorite") {
+                        $(this).children('i').removeClass("grey-text");
+                        $(this).children('i').addClass("red-text")
+                    } else
+                        $(this).children('i').removeClass("red-text").addClass("grey-text");
+                }).on("click", function () {
+                    var idProduto = $(this).attr('id');
+                    if ($(this).children('i').html() == "favorite") {
+                        var dados = {
+                            "idProduto": idProduto,
+                            "action": "delete",
+                            "table": "desejo"
+                        }
+                    } else {
+                        var dados = {
+                            "idProduto": idProduto,
+                            "action": "create",
+                            "table": "desejo"
+                        }
+                    }
+                    $.ajax({
+                        url: "ajax/favoritoAjax.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: dados,
+                        beforeSend: function () {
+                            $(".container").css("filter", "blur(7px)");
+                            $("html").css("cursor", "wait");
+                            $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                        },
+                        success: function (retorno) {
+                            if (retorno.error == false) {
+                                $("#resposta").html("<h1><blockquote>" + retorno.mensagem + "</blockquote></h1>");
+                            } else {
+                                $("#resposta").html("<h1><blockquote>" + retorno.mensagem + "</blockquote></h1>");
+                            }
+                            setTimeout(normalizar, 1500);
+                            window.location.href;
+                        }
+                    });
+                });
+                $('.favorito').each(function () {
+                    if ($(this).children('i').text() == "favorite")
+                        $(this).children('i').removeClass("grey-text");
+                    $(this).children('i').addClass("red-text");
+                });
+            });
+        </script>
+    </body>
+</html>

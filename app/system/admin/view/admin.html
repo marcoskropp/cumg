@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../css/materialize.min.css" rel="stylesheet" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="../templates/favicon.ico" type="image/x-icon">
+    </head>
+    <body class="orange lighten-2">
+        <input type="hidden" id="usuario" value="#_usuario_#">
+        #_nav_#
+        <div class="container">
+            <div class="row">
+                #_lista_#
+            </div>
+        </div>
+        <div id="resposta" class="centralizar"></div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="../js/materialize.min.js" type="text/javascript" ></script>
+        <script src="../js/funcoes.js" type="text/javascript" ></script>
+        <script>
+            $(document).ready(function () {
+                $(".dropdown-button").dropdown();
+                $(".button-collapse").sideNav();
+            });
+            function apagar(id) {
+                var dados = {
+                    "id": id,
+                    "action": "delete",
+                    "usuario": $("#usuario").val()
+                }
+                $.ajax({
+                    url: "ajax/formulario.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: dados,
+                    beforeSend: function () {
+                        $(".container").css("filter", "blur(7px)");
+                        $("html").css("cursor", "wait");
+                        $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                    },
+                    success: function (retorno) {
+                        if (retorno.error == false) {
+                            $("#resposta").html("<blockquote><h3 class='green-text'>" + retorno.mensagem + "</h1></blockquote>");
+                        } else {
+                            $("#resposta").html("<blockquote><h3 class='red-text'>" + retorno.mensagem + "</h1></blockquote>");
+                        }
+                        setTimeout(normalizar, 1500);
+                        setTimeout(function () {
+                            $("body").load("adminController.php");
+                        }, 1500);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

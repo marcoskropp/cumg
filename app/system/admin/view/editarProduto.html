@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Editar Produto</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="../css/materialize.min.css" rel="stylesheet" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="../templates/favicon.ico" type="image/x-icon">
+    </head>
+    <body class="orange lighten-2">
+        #_nav_#
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <form id="formulario" method="post" action="javascript:;">
+                        <input type="hidden" value="update" name="action">
+                        <input type="hidden" value="#_id_#" name="id">
+                        <input type="hidden" value="#_usuario_#" name="usuario">
+                        <div class="card-panel white">
+                            <h1 class="orange-text"><i class="material-icons large">bubble_chart</i>&nbsp;Editar Produto</h1>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">label_outline</i>
+                                    <input id="nome" type="text" name="nome" class="validate" value="#_nome_#" maxlength="50" required="required">
+                                    <label for="nome">Nome do produto</label>
+                                </div>
+                                <div class="input-field col s12 m3 l3">
+                                    <i class="material-icons prefix">attach_money</i>
+                                    <input id="preco" type="text" name="preco" class="validate" value="#_preco_#" maxlength="13" pattern="[0-9]*[.,]?[0-9]+" required="required">
+                                    <label for="preco">Preço</label>
+                                </div>
+                                <div class="input-field col s3 m3 l3">
+                                    <i class="material-icons prefix">control_point</i>
+                                    <input id="quantidade" type="number" name="quantidade" class="validate" value="#_quantidade_#" maxlength="11" required="required">
+                                    <label for="quantidade">Quantidade</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="material-icons prefix">insert_comment</i>
+                                    <textarea id="descricao" class="materialize-textarea validate" name="descricao" maxlength="500">#_descricao_#</textarea>
+                                    <label for="descricao">Descrição</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">bookmark_border</i>
+                                    <select name="categoria">
+                                        <option value="" disabled selected>#_categoria_#</option>
+                                        <option value="computer">Computador</option>
+                                        <option value="smartphone">Smartphone</option>
+                                        <option value="tablet">Tablet</option>
+                                        <option value="tv">Televisão</option>
+                                    </select>
+                                    <label>Categoria</label>
+                                </div>
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">polymer</i>
+                                    <input id="marca" type="text" name="marca" class="validate" value="#_marca_#" maxlength="100">
+                                    <label for="marca">Marca</label>
+                                </div>
+                            </div>
+                           <!-- <div class="row">
+                                <div class="file-field input-field">
+                                    <div class="btn orange">
+                                        <i class="material-icons large">camera_alt</i>
+                                        <input type="file" multiple>
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row center" id="botoes">
+                                <a href="adminController.php" class="btn-large orange">Voltar</a>
+                                <button type="submit" class="btn-large orange">Atualizar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="resposta" class="centralizar"></div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="../js/materialize.min.js" type="text/javascript"></script>
+        <script src="../js/funcoes.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#formulario").submit(function () {
+                    var dados = $(this).serialize();
+                    $.ajax({
+                        url: "ajax/formulario.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: dados,
+                        beforeSend: function () {
+                            $(".container").css("filter", "blur(7px)");
+                            $("html").css("cursor", "wait");
+                            $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
+                        },
+                        success: function (retorno) {
+                            if (retorno.error == false) {
+                                $("#resposta").html("<blockquote><h3 class='green-text'>" + retorno.mensagem + "</h1></blockquote>");
+                            } else {
+                                $("#resposta").html("<blockquote><h3 class='red-text'>" + retorno.mensagem + "</h1></blockquote>");
+                            }
+                            setTimeout(normalizar, 1500);
+                        }
+                    });
+                });
+                $('select').material_select();
+                $(".dropdown-button").dropdown();
+                $(".button-collapse").sideNav();
+            });
+        </script>
+    </body>
+</html>
