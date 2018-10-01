@@ -38,15 +38,15 @@
                     type: "POST",
                     data: dados,
                     beforeSend: function () {
-                        $(".container").css("filter", "blur(7px)");
+                        $(".container").css("filter", "blur(8px)");
                         $("html").css("cursor", "wait");
                         $("#resposta").html("<div class='preloader-wrapper big active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'> <div class='circle'></div> </div> </div> </div>").fadeIn();
                     },
                     success: function (retorno) {
                         if (retorno.error == false) {
-                            $("#resposta").html("<blockquote><h3 class='green-text'>" + retorno.mensagem + "</h1></blockquote>");
+                            $("#resposta").html("<blockquote><h3 class='green-text'>" + retorno.mensagem + "</h3></blockquote>");
                         } else {
-                            $("#resposta").html("<blockquote><h3 class='red-text'>" + retorno.mensagem + "</h1></blockquote>");
+                            $("#resposta").html("<blockquote><h3 class='red-text'>" + retorno.mensagem + "</h3></blockquote>");
                         }
                         setTimeout(normalizar, 1500);
                         setTimeout(function () {
